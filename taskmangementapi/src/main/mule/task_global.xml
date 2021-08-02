@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:db="http://www.mulesoft.org/schema/mule/db"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd 
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	 <http:listener-config name="task-management-api-httpListenerConfig">
+        <http:listener-connection host="0.0.0.0" port="${http.port}" />
+    </http:listener-config>  
+	
+	
+	
+	<db:config name="Database_Config" doc:name="Database Config" doc:id="ebe89ae9-6f51-4695-9831-22f736c627ef" >
+		<db:my-sql-connection host="${db.host}" port="${db.port}" user="${db.user}" password="${db.password}" database="${db.database}" />
+	</db:config>
+	<configuration-properties doc:name="Configuration properties" doc:id="b439130b-a4dd-412e-938f-5314fb69ed81" file="task.yaml" />
+	<configuration doc:name="Configuration" doc:id="25eae75f-a985-4604-a36c-5dd77f1451ea" defaultErrorHandler-ref="task_globalError_Handler" />
+	<error-handler name="task_globalError_Handler" doc:id="554f5777-144e-43e5-af99-313969a886f3" >
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="0e78654b-ca0e-4a02-9839-ac8fda1cdd10" type="DB:BAD_SQL_SYNTAX">
+			<set-payload value='"CHECK THE SYNTAX"' doc:name="Set Payload" doc:id="cde33fc6-6c97-446f-a0c9-05c408467268" />
+		</on-error-continue>
+		<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="6038fac1-b2f2-4a74-9092-6d01212ef183" type="DB:CONNECTIVITY">
+			<set-payload value='#["some error occurred"]' doc:name="Set Payload" doc:id="c82021e2-dc9b-48bc-8070-2cbfc8f6572d" />
+		</on-error-continue>
+	</error-handler>
+	
+	
+	
+	
+</mule>

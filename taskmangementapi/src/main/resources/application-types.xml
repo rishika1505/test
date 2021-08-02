@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="task" format="json">
+      <types:shape format="weave" example="examples/task_mgmnt-1.JSON"><![CDATA[%dw 2.0
+
+type task = Array<{|  taskID: String,   description: String,   priority: String,   assignedTo: String,   createdOn: String|}> {"example": "[{\\\"taskID\\\":\\\"T101\\\",\\\"description\\\":\\\"ACCOUNT UNLOCK\\\",\\\"priority\\\":\\\"LOW\\\",\\\"assignedTo\\\":\\\"Chandler Bing\\\",\\\"createdOn\\\":\\\"03\\/Oct\\/2020\\\"},{\\\"taskID\\\":\\\"T102\\\",\\\"description\\\":\\\"ACCOUNT UNLOCK\\\",\\\"priority\\\":\\\"LOW\\\",\\\"assignedTo\\\":\\\"Ross Geller\\\",\\\"createdOn\\\":\\\"03\\/Jun\\/2020\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#74160b9d-65da-41a7-a14e-9295091766bc">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="task"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#e28e0a69-2863-4b51-aedc-dffccc52805d">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="task"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>
